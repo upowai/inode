@@ -14,9 +14,7 @@ class Env:
 env = Env()
 
 # Configuration settings
-FETCH_VALIDATORS = (
-    "get_validators_info?inode=DbHgJVR7gDdTaxx7v3kX3GsxfJnTXy9zouSuzXE1TUWmB"
-)
+FETCH_VALIDATORS = "https://api.upow.ai/get_validators_info?inode=DbHgJVR7gDdTaxx7v3kX3GsxfJnTXy9zouSuzXE1TUWmB"
 CORE_URL = "https://api.upow.ai"
 INODE_IP = "0.0.0.0"
 INODE_PORT = 65432
