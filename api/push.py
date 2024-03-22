@@ -2,6 +2,11 @@ import logging
 import requests
 from upow_transactions.helpers import sha256
 from utils.utils import Utils
+import logging
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s:%(levelname)s - %(message)s"
+)
 
 wallet_utils: Utils = Utils()
 
