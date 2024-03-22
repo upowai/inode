@@ -21,6 +21,18 @@ def string_to_bytes(string: str) -> bytes:
         return string.encode("utf-8")
 
 
+def remove_b_prefix(byte_string):
+    if isinstance(byte_string, bytes):
+        return byte_string.decode("utf-8")
+    elif (
+        isinstance(byte_string, str)
+        and byte_string.startswith("b'")
+        and byte_string.endswith("'")
+    ):
+        return byte_string[2:-1]
+    return byte_string
+
+
 async def push_tx(tx, wallet_utils: Utils):
     try:
         r = requests.get(
@@ -42,13 +54,11 @@ async def push_tx(tx, wallet_utils: Utils):
 
 async def send_transaction(private_key_hex, recipients, amounts, message=None):
     try:
-        if isinstance(recipients, bytes):
-            recipients = recipients.decode("utf-8")
+        recipients = remove_b_prefix(recipients)
         logging.info(f"Private Key Hex: {private_key_hex}")
         logging.info(f"Recipients: {recipients}")
         logging.info(f"Amounts: {amounts}")
         private_key = int(private_key_hex, 16)
-        logging.info(f"Recipients: {recipients}, Amounts: {amounts}")
         recipients_list = recipients.split(",")
         amounts_list = amounts.split(",")
         logging.info(
