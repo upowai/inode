@@ -4,9 +4,6 @@ from upow_transactions.helpers import sha256
 from utils.utils import Utils
 import logging
 
-logging.basicConfig(
-    level=logging.DEBUG, format="%(asctime)s:%(levelname)s - %(message)s"
-)
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s:%(levelname)s - %(message)s"
@@ -51,10 +48,10 @@ async def send_transaction(private_key_hex, recipients, amounts, message=None):
         logging.info(f"Recipients: {recipients}")
         logging.info(f"Amounts: {amounts}")
         private_key = int(private_key_hex, 16)
-        logging.debug(f"Recipients: {recipients}, Amounts: {amounts}")
+        logging.info(f"Recipients: {recipients}, Amounts: {amounts}")
         recipients_list = recipients.split(",")
         amounts_list = amounts.split(",")
-        logging.debug(
+        logging.info(
             f"Recipients List: {recipients_list}, Amounts List: {amounts_list}"
         )
         message_bytes = string_to_bytes(message) if message else None
