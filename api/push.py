@@ -5,6 +5,10 @@ from utils.utils import Utils
 import logging
 
 logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s:%(levelname)s - %(message)s"
+)
+
+logging.basicConfig(
     level=logging.INFO, format="%(asctime)s:%(levelname)s - %(message)s"
 )
 
@@ -40,9 +44,9 @@ async def push_tx(tx, wallet_utils: Utils):
 
 
 async def send_transaction(private_key_hex, recipients, amounts, message=None):
-    logging.debug(f"Private Key Hex: {private_key_hex}")
-    logging.debug(f"Recipients: {recipients}")
-    logging.debug(f"Amounts: {amounts}")
+    logging.info(f"Private Key Hex: {private_key_hex}")
+    logging.info(f"Recipients: {recipients}")
+    logging.info(f"Amounts: {amounts}")
 
     try:
         private_key = int(private_key_hex, 16)
