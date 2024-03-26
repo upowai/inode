@@ -16,7 +16,7 @@ import asyncio
 from database.mongodb import transactionsCollection, transactions_collection
 
 
-UPDATE_INTERVAL_VALIDATORS = 600
+UPDATE_INTERVAL_VALIDATORS = 120
 LAST_UPDATE = 120
 SCORE_RESET_TIME = 10800
 
