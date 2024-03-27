@@ -191,7 +191,14 @@ async def sign_and_push_transactions(transactions):
                     logging.info(f"transaction_hash: {transaction_hash}")
                     transactions_collection.update_one(
                         {"wallet_address": wallet_address},
-                        {"$push": {"transactions": transaction_hash}},
+                        {
+                            "$push": {
+                                "transactions": {
+                                    "hash": transaction_hash,
+                                    "amount": amounts,
+                                }
+                            }
+                        },
                         upsert=True,
                     )
                 else:
