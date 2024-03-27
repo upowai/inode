@@ -14,6 +14,7 @@ import uuid
 import shortuuid
 import asyncio
 from database.mongodb import transactionsCollection, transactions_collection
+from decimal import Decimal, ROUND_DOWN
 
 
 UPDATE_INTERVAL_VALIDATORS = 120
@@ -174,7 +175,12 @@ async def sign_and_push_transactions(transactions):
             wallet_address = transaction.get("wallet_address")
             transaction_type = transaction.get("type")
             id = transaction.get("id")
-            amounts = str(transaction.get("new_balance"))
+            new_balance = transaction.get("new_balance")
+            amounts = str(
+                Decimal(new_balance).quantize(
+                    Decimal("0.00000001"), rounding=ROUND_DOWN
+                )
+            )
 
             message = ""
             try:
