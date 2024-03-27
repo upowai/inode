@@ -19,20 +19,31 @@ To ensure Redis is installed and properly configured on your system, you can use
 
 ### macOS and Ubuntu
 
-1. **Download the Script:**
-
-   - Download the `install_redis.sh` script from the provided repository or copy it into a new file on your system.
-
-2. **Make the Script Executable:**
+1. **Make the Script Executable:**
 
    - Open a terminal and navigate to the directory containing the `install_redis.sh` script.
    - Run the command `chmod +x install_redis.sh` to make the script executable.
 
-3. **Run the Script:**
+2. **Run the Script:**
    - Execute the script by running `./install_redis.sh` in the terminal.
    - If necessary, the script will ask for your password to grant permission for installation steps that require superuser access.
 
 The script will check if Redis is already installed on your system and proceed with the installation if it is not. It also ensures that Redis is set to start on boot.
+
+## Installing Mongodb
+
+To Install Mongodb on Ubuntu you can use the `install_mongodb.sh` script.
+
+### Ubuntu
+
+1. **Make the Script Executable:**
+
+   - Open a terminal and navigate to the directory containing the `install_mongodb.sh` script.
+   - Run the command `chmod +x install_mongodb.sh` to make the script executable.
+
+2. **Run the Script:**
+   - Execute the script by running `./install_mongodb.sh` in the terminal.
+   - If necessary, the script will ask for your password to grant permission for installation steps that require superuser access.
 
 ## Installation
 
@@ -51,7 +62,7 @@ The script will check if Redis is already installed on your system and proceed w
 3. **Install Dependencies:**
 
    ```bash
-   pip install -r requirements.txt
+   pip3 install -r requirements.txt
    ```
 
 4. **Configure MongoDB and Redis:**
@@ -76,6 +87,8 @@ The script will check if Redis is already installed on your system and proceed w
      SHA_PRIVATEKEY=YOUR_SHA_PRIVATE_KEY
      SHA_PUBLICKEY=YOUR_SHA_PUBLIC_KEY
      PRIVATEKEY=YOUR_INODE_WALLET_PRIVATEKEY
+     INODEWALLETADDRESS=YOUR_WALLET_ADDRESS
+     INODEREWARDWALLETADDRESS=YOUR_ADDRESS_FOR_REWARD
      ```
 
 ## Running the Server
@@ -84,7 +97,7 @@ The script will check if Redis is already installed on your system and proceed w
 
    - Run the following command in the project directory:
      ```bash
-     python inode.py
+     pytho3 inode.py
      ```
    - This will start the FastAPI server and the socket-based server for handling client connections.
 
