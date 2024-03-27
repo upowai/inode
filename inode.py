@@ -79,6 +79,20 @@ if Inode_private_key is None:
     )
     exit(1)
 
+Inode_private_key = os.getenv("INODEWALLETADDRESS")
+if Inode_private_key is None:
+    print(
+        "Inode INODEWALLETADDRESS not found. Please check readme.md to set the INODEWALLETADDRESS in the .env variable."
+    )
+    exit(1)
+
+Inode_private_key = os.getenv("INODEREWARDWALLETADDRESS")
+if Inode_private_key is None:
+    print(
+        "Inode INODEREWARDWALLETADDRESS not found. Please check readme.md to set the INODEREWARDWALLETADDRESS in the .env variable."
+    )
+    exit(1)
+
 try:
     pem_private_key = base64.b64decode(b64_private_key)
     private_key = serialization.load_pem_private_key(
