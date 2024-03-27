@@ -79,15 +79,15 @@ if Inode_private_key is None:
     )
     exit(1)
 
-Inode_private_key = os.getenv("INODEWALLETADDRESS")
-if Inode_private_key is None:
+Inode_wallet_address = os.getenv("INODEWALLETADDRESS")
+if Inode_wallet_address is None:
     print(
         "Inode INODEWALLETADDRESS not found. Please check readme.md to set the INODEWALLETADDRESS in the .env variable."
     )
     exit(1)
 
-Inode_private_key = os.getenv("INODEREWARDWALLETADDRESS")
-if Inode_private_key is None:
+Inode_reward_address = os.getenv("INODEREWARDWALLETADDRESS")
+if Inode_reward_address is None:
     print(
         "Inode INODEREWARDWALLETADDRESS not found. Please check readme.md to set the INODEREWARDWALLETADDRESS in the .env variable."
     )
