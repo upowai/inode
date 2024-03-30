@@ -1,8 +1,12 @@
 # iNode Server Documentation
 
-## Overview
+## Distributed Data Training
 
 iNode Server is a Python-based application designed to manage and process jobs in a distributed network. It integrates with MongoDB, Redis, and external APIs to handle job assignments, validator updates, and miner management. The server also features a FastAPI web server for handling HTTP requests.
+
+### iNode Flow
+
+![iNode](https://raw.githubusercontent.com/upowai/inode/main/img/iNode.png)
 
 ## Prerequisites
 
