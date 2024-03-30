@@ -133,5 +133,3 @@ To Install Mongodb on Ubuntu you can use the `install_mongodb.sh` script.
 - Ensure MongoDB and Redis services are running before starting the server.
 - Check the console logs for any errors or warnings.
 - Validate the configuration settings in `inode.py` and `utils.py`.
-
----
