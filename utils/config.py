@@ -41,6 +41,13 @@ if Inode_reward_address is None:
     )
     exit(3)
 
+Inode_track_block = os.getenv("TRACKBLOCK")
+if Inode_track_block is None:
+    print(
+        "Inode TRACKBLOCK not found. Please check readme.md to set the TRACKBLOCK in the .env variable."
+    )
+    exit(3)
+
 # Configuration settings
 FETCH_VALIDATORS = "https://api.upow.ai/get_validators_info?inode=DbHgJVR7gDdTaxx7v3kX3GsxfJnTXy9zouSuzXE1TUWmB"
 CORE_URL = "https://api.upow.ai"
@@ -55,4 +62,4 @@ PRIVATEKEY = env.PRIVATEKEY
 API_URL = "https://api.upow.ai"
 FAST_API_URL = "0.0.0.0"
 FAST_API_PORT = 8000
-TRACK = 15616
+TRACK = env.TRACKBLOCK
