@@ -136,7 +136,7 @@ To Install Mongodb on Ubuntu you can use the `install_mongodb.sh` script.
 
    - Run the following command in the project directory:
      ```bash
-     pytho3 inode.py
+     python3 inode.py
      ```
    - This will start the FastAPI server and the socket-based server for handling client connections.
 
