@@ -5,8 +5,9 @@ import requests
 import os
 import base64
 from dotenv import load_dotenv
+import argparse
 
-# Load .env file
+
 dotenv_path = ".env"
 load_dotenv(dotenv_path)
 
@@ -17,7 +18,7 @@ def load_public_key():
         print(
             "SHA_PUBLIC_KEY not found. Please run 'python generatekey.py' to set the key in the .env variable."
         )
-        exit(1)  # Exit the script with an error code indicating failure
+        exit(1)
     pem_public_key = base64.b64decode(b64_public_key)
     return serialization.load_pem_public_key(pem_public_key)
 
@@ -42,22 +43,36 @@ def send_request(encrypted_message):
         response = requests.post(
             "http://localhost:8000/modify-pool-list/", data=encrypted_message
         )
-        response.raise_for_status()  # This will raise an exception for HTTP error codes
+        response.raise_for_status()
         return response.json()
-    except (
-        requests.RequestException
-    ) as e:  # This catches HTTP errors and other Request issues
+    except requests.RequestException as e:
         print(f"Request failed: {e}")
         exit(1)
 
 
+parser = argparse.ArgumentParser(description="Send a request to modify the pool list.")
+parser.add_argument(
+    "-task",
+    type=str,
+    choices=["add", "remove"],
+    help="The task to perform (add or remove).",
+)
+parser.add_argument("-wallet", type=str, help="The wallet address.")
+args = parser.parse_args()
+
+
+if args.task and args.wallet:
+    task = args.task
+    wallet = args.wallet
+    message = f"{task}:{wallet}"
+else:
+    parser.print_help()
+    exit(1)
+
 public_key = load_public_key()
 
-# Encrypt the message
-encrypted_message = encrypt_message(
-    public_key, "add:DhWyMUj2pna2UYbvrqULyLf6dEo2MNzPHA7Uh4kBrJGFY"
-)
+encrypted_message = encrypt_message(public_key, message)
 
-# Send the request and print the response
+
 response = send_request(encrypted_message)
 print(response)
