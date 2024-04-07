@@ -55,7 +55,6 @@ async def push_tx(tx, wallet_utils: Utils):
 async def send_transaction(private_key_hex, recipients, amounts, message=None):
     try:
         recipients = remove_b_prefix(recipients)
-        logging.info(f"Private Key Hex: {private_key_hex}")
         logging.info(f"Recipients: {recipients}")
         logging.info(f"Amounts: {amounts}")
         private_key = int(private_key_hex, 16)

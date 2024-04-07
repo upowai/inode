@@ -189,7 +189,9 @@ async def sign_and_push_transactions(transactions):
                     private_key, wallet_address, amounts, message
                 )
                 if transaction_hash:
-                    logging.info(f"transaction_hash: {transaction_hash}")
+                    logging.info(
+                        f"transaction_hash: {transaction_hash}, for: {wallet_address}, amt: {amounts}"
+                    )
                     transactions_collection.update_one(
                         {"wallet_address": wallet_address},
                         {
