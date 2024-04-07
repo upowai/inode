@@ -67,7 +67,6 @@ def update_validators_list():
         total_stake_all_validators = sum(
             validator.get("totalStake", 0) for validator in validator_data[:60]
         )
-        r.delete("validators_list")
         for validator in validator_data[:60]:
             wallet_address = validator.get("validator")
             votes = validator.get("vote", [])
@@ -312,6 +311,8 @@ def update_balance(tokens_for_validators, tokens_for_miners, tokens_for_inode):
             print(f"Redis error when fetching validators: {e}")
             all_validators = {}
 
+        print(f"all_validators, {all_validators}")
+
         total_effective_stake = 0
         effective_stakes = {}
         for wallet_address, details in all_validators.items():
@@ -324,6 +325,8 @@ def update_balance(tokens_for_validators, tokens_for_miners, tokens_for_inode):
             score = details.get("score", 0)
             vote = details.get("vote", 0)
             totalStake = details.get("totalStake", 0)
+
+            print("totalStake", totalStake)
 
             if score == 1:
                 try:
