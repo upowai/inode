@@ -335,7 +335,7 @@ def update_balance(tokens_for_validators, tokens_for_miners, tokens_for_inode):
                 effective_stakes[wallet_address] = effective_stake
                 total_effective_stake += effective_stake
 
-        # print("total_effective_stake", total_effective_stake)
+        print("total_effective_stake", total_effective_stake)
 
         for wallet_address, effective_stake in effective_stakes.items():
             try:
