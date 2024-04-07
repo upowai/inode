@@ -46,10 +46,33 @@ if Inode_track_block is None:
     print(
         "Inode TRACKBLOCK not found. Please check readme.md to set the TRACKBLOCK in the .env variable."
     )
-    exit(3)
+    exit(4)
+
+Inode_redis_host = os.getenv("REDISHOST")
+if Inode_redis_host is None:
+    print(
+        "Inode REDISHOST not found. Please check readme.md to set the REDISHOST in the .env variable."
+    )
+    exit(5)
+
+Inode_redis_port = os.getenv("REDISPORT")
+if Inode_redis_port is None:
+    print(
+        "Inode REDISPORT not found. Please check readme.md to set the REDISPORT in the .env variable."
+    )
+    exit(5)
+
+Inode_redis_db = os.getenv("REDISDB")
+if Inode_redis_db is None:
+    print(
+        "Inode REDISDB not found. Please check readme.md to set the REDISDB in the .env variable."
+    )
+    exit(5)
 
 # Configuration settings
-FETCH_VALIDATORS = "https://api.upow.ai/get_validators_info?inode=Dsykm6pDTkD93Mx6fh8RBnXi47p2aWy7aaYNKGawjBPYq"
+FETCH_VALIDATORS = (
+    f"https://api.upow.ai/get_validators_info?inode={env.INODEWALLETADDRESS}"
+)
 CORE_URL = "https://api.upow.ai"
 INODE_IP = "0.0.0.0"
 INODE_PORT = 65432
@@ -63,3 +86,8 @@ API_URL = "https://api.upow.ai"
 FAST_API_URL = "0.0.0.0"
 FAST_API_PORT = 8000
 TRACK = env.TRACKBLOCK
+
+# redus database configurations
+REDIS_HOST = env.REDISHOST
+REDIS_PORT = env.REDISPORT
+REDIS_DB = env.REDISDB

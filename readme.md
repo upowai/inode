@@ -96,6 +96,9 @@ To Install Mongodb on Ubuntu you can use the `install_mongodb.sh` script.
      INODEWALLETADDRESS=YOUR_WALLET_ADDRESS
      INODEREWARDWALLETADDRESS=YOUR_ADDRESS_FOR_REWARD
      TRACKBLOCK=10000
+     REDISHOST=localhost
+     REDISPORT=6379
+     REDISDB=0
      ```
 
 7. **Prepare Your Development Environment**

@@ -67,6 +67,7 @@ def update_validators_list():
         total_stake_all_validators = sum(
             validator.get("totalStake", 0) for validator in validator_data[:60]
         )
+        r.delete("validators_list")
         for validator in validator_data[:60]:
             wallet_address = validator.get("validator")
             votes = validator.get("vote", [])
