@@ -341,7 +341,7 @@ def validator_(client_socket, data):
             jobs_collection.update_one({"_id": job_id}, {"$set": update_fields})
 
             client_socket.send(
-                "Validator Successfully validated the job".encode("utf-8")
+                f"Validator Successfully validated the job {job_id}".encode("utf-8")
             )
             return
         else:
