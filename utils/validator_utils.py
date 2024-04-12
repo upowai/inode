@@ -193,7 +193,7 @@ async def sign_and_push_transactions(transactions):
                 )
                 if transaction_hash:
                     logging.info(
-                        f"transaction_hash: {transaction_hash}, for: {wallet_address}, amt: {amounts}, type: {transaction_type}"
+                        f"transaction_hash: {transaction_hash}, for: {wallet_address}, amt: {amounts}, type: {transaction_type} | FROM: {config.INODE_WALLET_ADDRESS}"
                     )
                     transactions_collection.update_one(
                         {"wallet_address": wallet_address},
@@ -209,7 +209,7 @@ async def sign_and_push_transactions(transactions):
                     )
                 else:
                     logging.error(
-                        f"Transaction failed for wallet address {wallet_address}. No hash was returned."
+                        f"Transaction failed for wallet address {wallet_address}. No hash was returned | | FROM: {config.INODE_WALLET_ADDRESS}"
                     )
                     errorTransaction.update_one(
                         {"wallet_address": wallet_address},
@@ -252,7 +252,7 @@ async def sign_and_push_transactions(transactions):
                     transactionsCollection.delete_one({"id": id})
                 else:
                     logging.error(
-                        f"Error during transaction processing for {wallet_address}: {e}"
+                        f"Error during transaction processing for {wallet_address} | | FROM: {config.INODE_WALLET_ADDRESS} :  {e}"
                     )
 
         # Remove successfully processed transactions from the MongoDB collection
