@@ -13,7 +13,11 @@ import logging
 import uuid
 import shortuuid
 import asyncio
-from database.mongodb import transactionsCollection, transactions_collection
+from database.mongodb import (
+    transactionsCollection,
+    transactions_collection,
+    errorTransaction,
+)
 from decimal import Decimal, ROUND_DOWN
 
 
@@ -207,6 +211,18 @@ async def sign_and_push_transactions(transactions):
                     logging.error(
                         f"Transaction failed for wallet address {wallet_address}. No hash was returned."
                     )
+                    errorTransaction.update_one(
+                        {"wallet_address": wallet_address},
+                        {
+                            "$push": {
+                                "transactions": {
+                                    "error": transaction_hash,
+                                    "amount": amounts,
+                                }
+                            }
+                        },
+                        upsert=True,
+                    )
             except Exception as e:
                 error_message = str(e)
                 if "You can spend max 255 inputs" in error_message:
@@ -223,6 +239,16 @@ async def sign_and_push_transactions(transactions):
                         )
 
                     # Remove the original transaction that exceeded the input limit
+                    transactionsCollection.delete_one({"id": id})
+                elif "URI Too Long for url:" in error_message:
+                    split_amount = float(amounts) / 2
+                    logging.info(
+                        f"Splitting transaction for {wallet_address} into 2 parts due to URI length limit."
+                    )
+                    for _ in range(2):
+                        add_transaction_to_batch(
+                            wallet_address, split_amount, f"split_{transaction_type}"
+                        )
                     transactionsCollection.delete_one({"id": id})
                 else:
                     logging.error(
