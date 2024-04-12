@@ -53,6 +53,7 @@ async def push_tx(tx, wallet_utils: Utils):
 
 
 async def send_transaction(private_key_hex, recipients, amounts, message=None):
+    recipients = remove_b_prefix(recipients)
     private_key = int(private_key_hex, 16)
     recipients_list = recipients.split(",")
     amounts_list = amounts.split(",")
