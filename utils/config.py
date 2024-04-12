@@ -60,14 +60,21 @@ if Inode_redis_port is None:
     print(
         "Inode REDISPORT not found. Please check readme.md to set the REDISPORT in the .env variable."
     )
-    exit(5)
+    exit(6)
 
 Inode_redis_db = os.getenv("REDISDB")
 if Inode_redis_db is None:
     print(
         "Inode REDISDB not found. Please check readme.md to set the REDISDB in the .env variable."
     )
-    exit(5)
+    exit(7)
+
+Inode_mongodb = os.getenv("MONGODB")
+if Inode_mongodb is None:
+    print(
+        "Inode MONGODB not found. Please check readme.md to set the MONGODB in the .env variable."
+    )
+    exit(8)
 
 # Configuration settings
 FETCH_VALIDATORS = (
@@ -91,3 +98,6 @@ TRACK = env.TRACKBLOCK
 REDIS_HOST = env.REDISHOST
 REDIS_PORT = env.REDISPORT
 REDIS_DB = env.REDISDB
+
+# mongodb
+MONGO_DB = env.MONGODB
