@@ -100,7 +100,7 @@ API_URL = "https://api.upow.ai"
 FAST_API_URL = "0.0.0.0"
 FAST_API_PORT = 8000
 TRACK = env.TRACKBLOCK
-JOB_UPDATE_TIME = env.JOBUPDATETIME
+JOB_UPDATE_TIME = int(os.getenv("JOBUPDATETIME", "20"))
 
 # redus database configurations
 REDIS_HOST = env.REDISHOST
