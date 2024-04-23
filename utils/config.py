@@ -76,6 +76,13 @@ if Inode_mongodb is None:
     )
     exit(8)
 
+Inode_jobtime = os.getenv("JOBUPDATETIME")
+if Inode_jobtime is None:
+    print(
+        "Inode JOBUPDATETIME not found. Please check readme.md to set the JOBUPDATETIME in the .env variable."
+    )
+    exit(9)
+
 # Configuration settings
 FETCH_VALIDATORS = (
     f"https://api.upow.ai/get_validators_info?inode={env.INODEWALLETADDRESS}"
@@ -93,6 +100,7 @@ API_URL = "https://api.upow.ai"
 FAST_API_URL = "0.0.0.0"
 FAST_API_PORT = 8000
 TRACK = env.TRACKBLOCK
+JOB_UPDATE_TIME = env.JOBUPDATETIME
 
 # redus database configurations
 REDIS_HOST = env.REDISHOST

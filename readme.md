@@ -100,6 +100,7 @@ To Install Mongodb on Ubuntu you can use the `install_mongodb.sh` script.
      REDISPORT=6379
      REDISDB=0
      MONGODB=mongodb://localhost:27017/
+     JOBUPDATETIME=20 #20sec
      ```
 
 7. **Prepare Your Development Environment**

@@ -337,7 +337,7 @@ def update_balance(tokens_for_validators, tokens_for_miners, tokens_for_inode):
             print(f"Redis error when fetching validators: {e}")
             all_validators = {}
 
-        print(f"all_validators, {all_validators}")
+        # print(f"all_validators, {all_validators}")
 
         total_effective_stake = 0
         effective_stakes = {}
@@ -425,6 +425,38 @@ def update_balance(tokens_for_validators, tokens_for_miners, tokens_for_inode):
         print(f"Unexpected error during update_balance: {e}")
 
 
+def delete_jobs(max_deletes):
+    try:
+        delete_count = 0
+        index = 0
+        chunk_size = 1000
+
+        while delete_count < max_deletes:
+            job_keys = r.lrange("jobInode", index, index + chunk_size - 1)
+            if not job_keys:
+                break
+
+            for key in job_keys:
+                job_details = json.loads(key)
+                if job_details.get("wallet_address"):
+                    r.lrem("jobInode", 0, key)
+                    delete_count += 1
+
+                    if delete_count >= max_deletes:
+                        break
+
+            index += chunk_size
+
+        logging.info(f"Deleted {delete_count} jobs with wallet address.")
+
+    except redis.RedisError as e:
+        logging.error(f"Redis error occurred: {e}")
+    except json.JSONDecodeError as e:
+        logging.error(f"JSON deserialization error: {e}")
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
+
+
 def create_job():
     try:
         random_id = shortuuid.ShortUUID().random(length=16)
@@ -489,11 +521,21 @@ def push_tx_periodically():
         print(f"Error in push_tx_periodically: {e}")
 
 
+def jobupdate_periodically():
+    try:
+        while True:
+            create_job()
+            delete_jobs(500)
+            # sleep time 20sec
+            time.sleep(config.JOB_UPDATE_TIME)
+    except Exception as e:
+        print(f"Error in jobupdate_periodically: {e}")
+
+
 def last_update_periodically():
     try:
         while True:
             last_update()
-            create_job()
             time.sleep(LAST_UPDATE)
     except Exception as e:
         print(f"Error in last_update_periodically: {e}")
@@ -504,7 +546,9 @@ def start_periodic_update():
         target=update_validators_periodically, daemon=True
     )
     balance_thread = threading.Thread(target=last_update_periodically, daemon=True)
+    job_thread = threading.Thread(target=jobupdate_periodically, daemon=True)
     tx_push = threading.Thread(target=push_tx_periodically, daemon=True)
     validators_thread.start()
     balance_thread.start()
+    job_thread.start()
     tx_push.start()
