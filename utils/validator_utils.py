@@ -17,6 +17,7 @@ from database.mongodb import (
     transactionsCollection,
     transactions_collection,
     errorTransaction,
+    catchTransaction,
 )
 from decimal import Decimal, ROUND_DOWN
 
@@ -200,8 +201,11 @@ async def sign_and_push_transactions(transactions):
                         {
                             "$push": {
                                 "transactions": {
+                                    "id": id,
                                     "hash": transaction_hash,
                                     "amount": amounts,
+                                    "timestamp": datetime.utcnow(),
+                                    "transaction_type": transaction_type,
                                 }
                             }
                         },
@@ -216,8 +220,10 @@ async def sign_and_push_transactions(transactions):
                         {
                             "$push": {
                                 "transactions": {
+                                    "id": id,
                                     "error": transaction_hash,
                                     "amount": amounts,
+                                    "timestamp": datetime.utcnow(),
                                 }
                             }
                         },
@@ -235,7 +241,9 @@ async def sign_and_push_transactions(transactions):
                     )
                     for _ in range(num_splits):
                         add_transaction_to_batch(
-                            wallet_address, split_amount, f"split_{transaction_type}"
+                            wallet_address,
+                            split_amount,
+                            f"utxos_split_{transaction_type}",
                         )
 
                     # Remove the original transaction that exceeded the input limit
@@ -247,13 +255,33 @@ async def sign_and_push_transactions(transactions):
                     )
                     for _ in range(2):
                         add_transaction_to_batch(
-                            wallet_address, split_amount, f"split_{transaction_type}"
+                            wallet_address,
+                            split_amount,
+                            f"url_split_{transaction_type}",
                         )
                     transactionsCollection.delete_one({"id": id})
                 else:
                     logging.error(
                         f"Error during transaction processing for {wallet_address} | | FROM: {config.INODE_WALLET_ADDRESS} :  {e}"
                     )
+                    catchTransaction.update_one(
+                        {"wallet_address": wallet_address},
+                        {
+                            "$push": {
+                                "transactions": {
+                                    "id": id,
+                                    "error": error_message,
+                                    "amount": amounts,
+                                    "timestamp": datetime.utcnow(),
+                                }
+                            }
+                        },
+                        upsert=True,
+                    )
+                    add_transaction_to_batch(
+                        wallet_address, amounts, f"CatchError_{id}"
+                    )
+                    transactionsCollection.delete_one({"id": id})
 
         # Remove successfully processed transactions from the MongoDB collection
         if transactions:

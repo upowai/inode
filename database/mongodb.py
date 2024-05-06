@@ -27,3 +27,4 @@ processed_transactions = db.processedTransactions
 transactionsCollection = db.transactionsCollection
 transactions_collection = db.transactions
 errorTransaction = db.errorTransaction
+catchTransaction = db.catchTransaction
