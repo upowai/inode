@@ -8,6 +8,7 @@ import random
 import utils.config as config
 from api.fetchTransaction import process_all
 from api.push import send_transaction
+from api.api_client import test_api_connection
 from database.database import r
 import logging
 import uuid
@@ -314,6 +315,9 @@ def get_transactions_for_wallet(wallet_address, page, limit):
 
 
 def process_all_transactions():
+    if not test_api_connection(config.API_URL):
+        logging.warning("Blockchain may be down, no transactions pushed.")
+        return
     try:
         # Fetch all transactions and sort them by timestamp
         all_transactions = list(transactionsCollection.find().sort("timestamp", 1))
@@ -325,7 +329,7 @@ def process_all_transactions():
             unique_transactions[wallet_address] = transaction
 
         # Get the first 5 unique transactions based on the sorted order by timestamp
-        pending_transactions = list(unique_transactions.values())[:5]
+        pending_transactions = list(unique_transactions.values())[:15]
 
         if pending_transactions:
             # Since sign_and_push_transactions is an async function,
