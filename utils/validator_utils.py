@@ -182,11 +182,7 @@ async def sign_and_push_transactions(transactions):
             transaction_type = transaction.get("type")
             id = transaction.get("id")
             new_balance = transaction.get("new_balance")
-            amounts = str(
-                Decimal(new_balance).quantize(
-                    Decimal("0.00000001"), rounding=ROUND_DOWN
-                )
-            )
+            amounts = "{:.8f}".format(float(new_balance))
 
             message = ""
             try:
